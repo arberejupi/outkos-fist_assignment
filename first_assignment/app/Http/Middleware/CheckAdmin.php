@@ -8,10 +8,10 @@ class CheckAdmin
 {
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role === 'admin') {
-            return $next($request);
+        if (Auth::user()->role !== 'admin') {
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
 
-        return response()->json(['message' => 'Unauthorized'], 403);
+        return $next($request);
     }
 }
